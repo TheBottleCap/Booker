@@ -1,0 +1,45 @@
+package Customers;
+import gasSupplier.gasAgency;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+class Customer implements gasAgency {
+ public String name;
+ public String street;
+ public String area;
+ public String pincode;
+ public String mobile;
+ public Customer(String name, String street, String area, String pincode, String mobile) {
+ this.name = name;
+ this.street = street;
+ this.area = area;
+ this.pincode = pincode;
+ this.mobile = mobile;
+ }
+}
+public class gasConnection extends Customer {
+ public int numberOfCylinders;
+ String date;
+ public Date lastDate = null;
+ SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+ public static int connectionNumber = 100;
+ {
+ connectionNumber+=1;
+ }
+ public gasConnection(String name, String street, String area, String pincode, String mobile, 
+int numberOfCylinders) {
+ super(name, street, area, pincode, mobile);
+ this.numberOfCylinders = numberOfCylinders;
+ }
+ public void getLastDate(){
+ //generating lastDate
+ System.out.println("enter the last Date: ");
+ date = new Scanner(System.in).nextLine();
+ try {
+ lastDate = dateFormat.parse(date);
+ } catch (ParseException e) {
+ System.out.println(e);
+ }
+ }
+}

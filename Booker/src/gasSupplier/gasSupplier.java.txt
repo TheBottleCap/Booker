@@ -1,0 +1,11 @@
+package gasSupplier;
+public interface gasAgency {
+ public String agencyName = "Indane Gas";
+ public int agencyCode = 1234;
+ public int phNumber = 4352919;
+ default void agencyDisplay(){
+ System.out.println("Agency: "+ agencyName);
+ System.out.println("Agency Code: "+ agencyCode);
+ System.out.println("Phone: "+ phNumber);
+ }
+}

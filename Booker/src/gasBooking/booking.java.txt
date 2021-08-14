@@ -1,0 +1,106 @@
+package gasBooking;
+import Customers.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+class Booking extends gasConnection {
+ public double otp = 5678, amount = 825.0, refund = 0;
+ public String dt, deliverDate;
+ public Date dt_1;
+ public Date dt_2;
+ public String status;
+ public String DelMobileNo = "9090878765";
+ public Booking(String name, String street, String area, String pincode, String mobile, int 
+numberOfCylinders) {
+ super(name, street, area, pincode, mobile, numberOfCylinders);
+ }
+ public void getDates() {
+ System.out.println("enter booking date: ");
+ dt = new Scanner(System.in).next();
+ dt_1 = null;
+ SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+ try {
+ dt_1 = dateFormat.parse(dt);
+ } catch (ParseException e) {
+ System.out.println(e);
+ }
+// delivery date
+ System.out.println("Enter delivery date: ");
+ deliverDate = new Scanner(System.in).next();
+ dt_2 = null;
+ try {
+ dt_2 = dateFormat.parse(deliverDate);
+ } catch (ParseException e) {
+ System.out.println(e);
+ }
+ long dayDiff = dt_2.getTime() - dt_1.getTime(); // dt_2 is delivery date and dt_1 is booking 
+date
+ long newDiff = TimeUnit.DAYS.convert(dayDiff, TimeUnit.MILLISECONDS);
+ if (newDiff > 7) {
+ status = "P"; //pending
+ }
+ }
+ public void validate() {
+ // get the difference between two dates
+ long elapsedms = dt_1.getTime() - lastDate.getTime();
+ long diff = TimeUnit.DAYS.convert(elapsedms, TimeUnit.MILLISECONDS);
+ System.out.println("difference between two dates is : " + diff);
+ if (numberOfCylinders == 1) {
+ if (diff < 30) {
+ System.out.println("booking cannot be done");
+// numberOfCylinders = 0;
+ status = "C";
+ } else {
+// System.out.println("status: booked");
+ status = "B"; //status booked
+ lastDate = dt_1;
+ }
+ } else if (numberOfCylinders == 2) {
+ if (diff < 50) {
+ System.out.println("booking cannot be done");
+// numberOfCylinders = 0;
+ status = "C";
+ } else {
+// System.out.println("status: booked");
+ status = "B"; //booked
+ lastDate = dt_1;
+ }
+ }
+ }
+}
+public class Delivery extends Booking {
+ public String delPersonName;
+ int customerOtp;
+ public Delivery(String name, String street, String area, String pincode, String mobile, int 
+numberOfCylinders) {
+ super(name, street, area, pincode, mobile, numberOfCylinders);
+ }
+ public void amountCalc() {
+ long dayDiff = dt_2.getTime() - dt_1.getTime(); //dt_2 is delivery and dt_1 is booking
+ long newDiff = TimeUnit.DAYS.convert(dayDiff, TimeUnit.MILLISECONDS);
+ if (newDiff > 7) {
+ refund = 41.25;
+ amount = amount - refund;
+ }
+ }
+ public void verifyOTP() {
+ if(status.equals("B")){
+ System.out.println("enter OTP: ");
+ customerOtp = new Scanner(System.in).nextInt();
+ if (customerOtp != otp) {
+// System.out.println("booking cancelled");
+ status = "C"; //cancelled
+ } else {
+// System.out.println("status delivered");
+ status = "D";
+ }
+ }
+ else
+ System.out.println("no booking done!!!");
+ }
+ public void deliveryPersonDetails() {
+ System.out.println("\n");
+ System.out.println("Enter Delivery Person Name: ");
+ delPersonName = new Scanner(System.in).nextLine();
+ }
+}
