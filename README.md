@@ -4,4 +4,4 @@ This is a java code implementation of a gas booking agency which allows user to 
 for admins, this application allows to keep a check on the delivery man in a spefic location. 
 Inshort this application provides complete tracking and information about the cylinder and the details of the delivery contact person.
 
-Feel free to contribute in it.
+Feel free to contribute in it and make new changes.
